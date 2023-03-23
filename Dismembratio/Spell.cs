@@ -4,30 +4,29 @@ using ThunderRoad;
 namespace Dismembratio;
 
 public class Spell : SpellCastCharge {
-    [ModOption(name = "Slice Head",
-                  tooltip = "If this is enabled the dismemberment spell will dismember the head on cast.",
-                  category = "Dismemberment Spell: Sliceables")]
-    public bool sliceHead = true;
-    [ModOption(name = "Slice Arms",
-                  tooltip = "If this is enabled the dismemberment spell will dismember both of the arms on cast.",
-                  category = "Dismemberment Spell: Sliceables")]
-    public bool sliceArms = true;
-    [ModOption(name = "Slice Legs", 
-                  tooltip = "If this is enabled the dismemberment spell will dismember both of the legs on cast.",
-                  category = "Dismemberment Spell: Sliceables")]
-    public bool sliceLegs = true;
+    [ModOption("Slice Head",
+                  "If this is enabled the dismemberment spell will dismember the head on cast.",
+                  valueSourceName = "Slice Head",
+                  defaultValueIndex = 1)]
+    public static bool sliceHead = true;
+    [ModOption("Slice Arms",
+                  "If this is enabled the dismemberment spell will dismember both of the arms on cast.",
+                  valueSourceName = "Slice Arms",
+                  defaultValueIndex = 1)]
+    public static bool sliceArms = true;
+    [ModOption("Slice Legs",
+                  "If this is enabled the dismemberment spell will dismember both of the legs on cast.",
+                  valueSourceName = "Slice Legs",
+                  defaultValueIndex = 1)]
+    public static bool sliceLegs = true;
 
     public override void UpdateCaster() {
         base.UpdateCaster();
-        var closestCreature = Methods.GetClosestCreature();
-        if (!spellCaster.isFiring || closestCreature is null) return;
-        if (sliceHead) closestCreature.Head()?.TrySlice();
-        if (sliceArms) {
-            closestCreature.LeftArm().TrySlice();
-            closestCreature.RightArm().TrySlice();
+        if (!spellCaster.isFiring) return;
+        foreach (var creature in Creature.allActive) {
+            if (sliceHead) creature.Head()?.TrySlice();
+            if (sliceArms) { creature.LeftArm()?.TrySlice(); creature.RightArm()?.TrySlice(); }
+            if (sliceLegs) { creature.LeftLeg()?.TrySlice(); creature.RightLeg()?.TrySlice(); }
         }
-        if (!sliceLegs) return;
-        closestCreature.LeftLeg().TrySlice();
-        closestCreature.RightLeg().TrySlice();
     }
 }
