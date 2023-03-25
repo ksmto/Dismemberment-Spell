@@ -1,9 +1,11 @@
 ﻿using Extensions;
+using System.Linq;
 using ThunderRoad;
 
 namespace Dismembratio;
 
-public class Spell : SpellCastCharge {
+public class Spell : SpellCastCharge
+{
     [ModOption("Slice Head",
                   "If this is enabled the dismemberment spell will dismember the head on cast.",
                   valueSourceName = "Slice Head",
@@ -20,13 +22,24 @@ public class Spell : SpellCastCharge {
                   defaultValueIndex = 1)]
     public static bool sliceLegs = true;
 
-    public override void UpdateCaster() {
+    public override void UpdateCaster()
+    {
         base.UpdateCaster();
-        if (!spellCaster.isFiring) return;
-        foreach (var creature in Creature.allActive) {
-            if (sliceHead) creature.Head()?.TrySlice();
-            if (sliceArms) { creature.LeftArm()?.TrySlice(); creature.RightArm()?.TrySlice(); }
-            if (sliceLegs) { creature.LeftLeg()?.TrySlice(); creature.RightLeg()?.TrySlice(); }
-        }
+        if (spellCaster.isFiring)
+            foreach (var creature in Creature.allActive.Where(creature => !creature.isPlayer))
+            {
+                creature?.Kill();
+                if (sliceHead) creature?.Head()?.TrySlice();
+                if (sliceArms)
+                {
+                    creature?.LeftArm()?.TrySlice();
+                    creature?.RightArm()?.TrySlice();
+                }
+                if (sliceLegs)
+                {
+                    creature?.LeftLeg()?.TrySlice();
+                    creature?.RightLeg()?.TrySlice();
+                }
+            }
     }
 }

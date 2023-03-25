@@ -1,0 +1,157 @@
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Dismembratio.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Dismembratio.pdb
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\0Harmony.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\chabuk.manikinmono.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Newtonsoft.Json.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Addressables.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Collections.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.InputSystem.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.ResourceManager.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.TextMeshPro.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AIModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AnimationModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ARModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AssetBundleModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AudioModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ClothModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.CoreModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.InputModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ParticleSystemModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.PhysicsModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TextCoreModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UI.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UIModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VFXModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VideoModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VRModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.XRModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.AssemblyReference.cache
+C:\VS Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.CoreCompileInputs.cache
+C:\VS Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.CopyComplete
+C:\VS Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.dll
+C:\VS Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.pdb
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Mathematics.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\SteamVR.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.XR.Management.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Oculus.VR.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Oculus.Platform.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\RainyReignGames.Dismemberment.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TerrainPhysicsModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.XR.Oculus.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.InputLegacyModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TextRenderingModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\Newtonsoft.Json.UnityConverters.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UIElementsModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AccessibilityModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TerrainModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VirtualTexturingModule.dll
+C:\VS Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.WindModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Dismembratio.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Dismembratio.pdb
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\0Harmony.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\netstandard.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Newtonsoft.Json.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Newtonsoft.Json.UnityConverters.Addressables.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Newtonsoft.Json.UnityConverters.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.EventLinker.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.Manikin.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.MaterialInstance.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.PointCache.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.Reflection.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.Reveal.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\ThunderRoad.Utilities.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Addressables.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Collections.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.InputSystem.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Jobs.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Mathematics.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.ResourceManager.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.ScriptableBuildPipeline.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.TextMeshPro.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AccessibilityModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AIModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AndroidJNIModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AnimationModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ARModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AssetBundleModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.AudioModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ClothModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ClusterInputModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ClusterRendererModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.CoreModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.CrashReportingModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.DirectorModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.DSPGraphModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.GameCenterModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.GIModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.GridModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.HotReloadModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ImageConversionModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.IMGUIModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.InputLegacyModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.InputModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.JSONSerializeModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.LocalizationModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.NVIDIAModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ParticleSystemModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.PerformanceReportingModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.Physics2DModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.PhysicsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ProfilerModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.RuntimeInitializeOnLoadManagerInitializerModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.ScreenCaptureModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SharedInternalsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SpatialTracking.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SpriteMaskModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SpriteShapeModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.StreamingModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SubstanceModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.SubsystemsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TerrainModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TerrainPhysicsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TextCoreFontEngineModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TextCoreTextEngineModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TextRenderingModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TilemapModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.TLSModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UI.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UIElementsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UIElementsNativeModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UIModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UmbraModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UNETModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityAnalyticsCommonModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityAnalyticsModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityConnectModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityCurlModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityTestProtocolModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityWebRequestAssetBundleModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityWebRequestAudioModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityWebRequestModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityWebRequestTextureModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.UnityWebRequestWWWModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VehiclesModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VFXModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VideoModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VirtualTexturingModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.VRModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.WindModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.XR.LegacyInputHelpers.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\UnityEngine.XRModule.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\VoiceSDK.Dictation.Runtime.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\VoiceSDK.Runtime.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\SteamVR.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.XR.Management.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Oculus.VR.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Oculus.Platform.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\RainyReignGames.Dismemberment.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.XR.Oculus.dll
+F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.AssemblyReference.cache
+F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.CoreCompileInputs.cache
+F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.CopyComplete
+F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.dll
+F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.pdb

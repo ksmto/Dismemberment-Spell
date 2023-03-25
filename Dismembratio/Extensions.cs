@@ -195,14 +195,14 @@ namespace Extensions {
         public static float Abs(this float number) => Mathf.Abs(number);
         public static float Clamp(this float number, float minimum, float maximum) => Mathf.Clamp(number, minimum, maximum);
         public static float Lerp(this float minimum, float maximum, float speed) => Mathf.Lerp(minimum, maximum, speed);
-        public static float RandomNumber(float minimum = Mathf.NegativeInfinity, float maximum = Mathf.Infinity) => Random.Range(minimum, maximum);
+        public static float RandomNumber(float minimum = Mathf.NegativeInfinity, float maximum = Mathf.Infinity) => UnityEngine.Random.Range(minimum, maximum);
 
         public static void Clone(this Creature creature, Vector3 position, Quaternion rotation, [CanBeNull] string brainID = null) {
             creature.data.SpawnAsync(position,
                                      rotation.y,
                                      null,
-                                     false, 
-                                     null, 
+                                     false,
+                                     null,
                                      newCreature => { newCreature.LoadBrain(brainID); });
         }
 
@@ -296,9 +296,15 @@ namespace Extensions {
         public static bool InWater(this Item item) => item.waterHandler.inWater;
 
         public static bool InWater(this Creature creature) => creature.waterHandler.inWater;
-        
+
         public static Vector3 AboveHead(this Creature creature, float distance = 1.50f) =>
             creature.Head().transform.position + creature.Head().upDirection * distance;
+
+        public static T Next<T>(this List<T> list, int index) => index < list.Count - 1 ? list[index + 1] : list.FirstOrDefault();
+        
+        public static T Random<T>(this List<T> list, int index) => index < list.Count - 1 ? list[UnityEngine.Random.Range(0, index)] : list.Next(index);
+
+        public static RagdollPart GetRandomPart(this Creature creature, int index) => creature.ragdoll.parts.Random(index);
     }
 }
 
