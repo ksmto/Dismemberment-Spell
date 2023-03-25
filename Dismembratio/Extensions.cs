@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using ThunderRoad;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-namespace Extensions {
-    internal static class Methods {
+namespace Extensions
+{
+    internal static class Methods
+    {
         public static Vector3 Position(this Creature creature) => creature.transform.position;
 
         public static Creature GetClosestCreature() =>
@@ -21,7 +22,8 @@ namespace Extensions {
                 .OrderBy(item => Vector3.Distance(Player.currentCreature.Position(), item.transform.position))
                 .FirstOrDefault();
 
-        public static void SliceAllParts(this Creature creature) {
+        public static void SliceAllParts(this Creature creature)
+        {
             creature?.Kill();
             creature?.Head()?.TrySlice();
             creature?.Neck()?.TrySlice();
@@ -101,8 +103,8 @@ namespace Extensions {
 
         public static void StopBrain(this Creature creature) => creature?.brain?.Stop();
 
-        public static void EndCast(this SpellCaster spellCaster) {
-            spellCaster?.EndCast();
+        public static void EndCast(this SpellCaster spellCaster)
+        {
             spellCaster.intensity = 0.0f;
             spellCaster?.Fire(false);
             spellCaster?.spellInstance?.Fire(false);
@@ -111,7 +113,8 @@ namespace Extensions {
             spellCaster?.StopFingersEffect();
         }
 
-        public static void Imbue(this Item item, string spellType, float imbuePower) {
+        public static void Imbue(this Item item, string spellType, float imbuePower)
+        {
             foreach (var colliderGroup in item.colliderGroups)
                 colliderGroup?.imbue?.Transfer(Catalog.GetData<SpellCastCharge>(spellType), imbuePower);
         }
@@ -122,17 +125,21 @@ namespace Extensions {
                                            float explosionRadius = 10.0f,
                                            float explosionForce = 25.0f,
                                            [CanBeNull] EffectData effectData = null,
-                                           [CanBeNull] string effectID = "MeteorExplosion") {
-            if (effectData is not null) {
+                                           [CanBeNull] string effectID = "MeteorExplosion")
+        {
+            if (effectData is not null)
+            {
                 effectData = Catalog.GetData<EffectData>(effectID);
                 effectData?.Spawn(position, Quaternion.identity, 1.0f, 1.0f)?.Play();
             }
             var rigidbodyHashSet = new HashSet<Rigidbody>();
             var creatureHashSet = new HashSet<Creature>();
-            foreach (var collider in Physics.OverlapSphere(position, explosionRadius)) {
+            foreach (var collider in Physics.OverlapSphere(position, explosionRadius))
+            {
                 if (!collider.attachedRigidbody || rigidbodyHashSet.Contains(collider.attachedRigidbody)) return;
                 var creature = collider.attachedRigidbody?.GetComponentInParent<Creature>();
-                if (creature.Alive() && !creature.isPlayer && !creatureHashSet.Contains(creature)) {
+                if (creature.Alive() && !creature.isPlayer && !creatureHashSet.Contains(creature))
+                {
                     creature.ragdoll?.SetState(Ragdoll.State.Destabilized);
                     creatureHashSet.Add(creature);
                 }
@@ -161,7 +168,8 @@ namespace Extensions {
         public static T GetComponetAndFind<T>(this Item item, string find) where T : Component =>
             item?.gameObject.transform.Find(find)?.GetComponent<T>();
 
-        public static void InertKill(this Creature creature) {
+        public static void InertKill(this Creature creature)
+        {
             creature?.Kill();
             creature?.ragdoll?.SetState(Ragdoll.State.Inert);
         }
@@ -169,7 +177,8 @@ namespace Extensions {
         public static Vector3 ChangeScale(this Item item, float newScaleSize) =>
             item.transform.localScale = new Vector3(newScaleSize, newScaleSize, newScaleSize);
 
-        public static void Unpenetrate(this Item item) {
+        public static void Unpenetrate(this Item item)
+        {
             foreach (var damagers in item.collisionHandlers
                                          .SelectMany(collisionHandlers => collisionHandlers.damagers)) damagers.UnPenetrateAll();
         }
@@ -177,17 +186,20 @@ namespace Extensions {
         public static void AddForce(this Creature creature,
                                     Vector3 force,
                                     float? forceAdded = null,
-                                    ForceMode forceMode = ForceMode.Impulse) {
+                                    ForceMode forceMode = ForceMode.Impulse)
+        {
             foreach (var parts in creature?.ragdoll?.parts) parts?.physicBody?.AddForce(force * forceAdded ?? Vector3.zero, forceMode);
         }
 
         public static void Destroy(this GameObject gameObject) => Destroy(gameObject);
+
         public static Color Darken(this Color color, float darkenSpeed) => Color.Lerp(color, Color.clear, darkenSpeed);
 
         public static void AddForceTowards(this Rigidbody rigidbody,
                                            Vector3 target,
                                            float? forceAdded = null,
-                                           ForceMode forceMode = ForceMode.VelocityChange) {
+                                           ForceMode forceMode = ForceMode.VelocityChange)
+        {
             rigidbody?.AddForce((rigidbody.position - target).normalized * forceAdded ?? Vector3.zero, forceMode);
         }
 
@@ -195,9 +207,12 @@ namespace Extensions {
         public static float Abs(this float number) => Mathf.Abs(number);
         public static float Clamp(this float number, float minimum, float maximum) => Mathf.Clamp(number, minimum, maximum);
         public static float Lerp(this float minimum, float maximum, float speed) => Mathf.Lerp(minimum, maximum, speed);
-        public static float RandomNumber(float minimum = Mathf.NegativeInfinity, float maximum = Mathf.Infinity) => UnityEngine.Random.Range(minimum, maximum);
 
-        public static void Clone(this Creature creature, Vector3 position, Quaternion rotation, [CanBeNull] string brainID = null) {
+        public static float GetRandomNumber(float minimum = Mathf.NegativeInfinity, float maximum = Mathf.Infinity) =>
+            UnityEngine.Random.Range(minimum, maximum);
+
+        public static void Clone(this Creature creature, Vector3 position, Quaternion rotation, [CanBeNull] string brainID = null)
+        {
             creature.data.SpawnAsync(position,
                                      rotation.y,
                                      null,
@@ -211,8 +226,10 @@ namespace Extensions {
                                  Quaternion rotation,
                                  Vector3? forceDirection = null,
                                  float? forceAdded = null,
-                                 ForceMode forceMode = ForceMode.Impulse) {
-            item.data.SpawnAsync(newItem => {
+                                 ForceMode forceMode = ForceMode.Impulse)
+        {
+            item.data.SpawnAsync(newItem =>
+            {
                 newItem.transform.position = position;
                 newItem.transform.rotation = rotation;
                 newItem.physicBody.AddForce(forceDirection ?? Vector3.up * forceAdded ?? Vector3.zero, forceMode);
@@ -221,19 +238,22 @@ namespace Extensions {
 
         public delegate void LineCallback(LineRenderer lineRenderer);
 
-        public static LineRenderer CreateLine(this GameObject gameObj, LineCallback callback = null) {
+        public static LineRenderer CreateLine(this GameObject gameObj, LineCallback callback = null)
+        {
             var lineRenderer = gameObj?.AddComponent<LineRenderer>();
             callback?.Invoke(lineRenderer);
             return lineRenderer;
         }
 
-        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f) {
+        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f)
+        {
             var dot = Vector3.Dot(source.normalized, target.normalized);
             var cosAngle = Mathf.Cos(Mathf.Deg2Rad * angle);
             return dot >= cosAngle;
         }
 
-        public static Direction GetDirection(this Vector3 vector3, float angle = 45.0f) {
+        public static Direction GetDirection(this Vector3 vector3, float angle = 45.0f)
+        {
             if (vector3.Facing(Vector3.up, angle)) return Direction.Upward;
             if (vector3.Facing(Vector3.forward, angle)) return Direction.Forward;
             if (vector3.Facing(Vector3.left, angle)) return Direction.Leftward;
@@ -247,8 +267,10 @@ namespace Extensions {
         public static RagdollHand Offhand(this Item item) => item.mainHandler.otherHand;
         public static RagdollHand Offhand(this SpellCaster spellCaster) => spellCaster.ragdollHand.otherHand;
 
-        public static IEnumerator Decrease(this float value, float decrement, float delay = 1.0f) {
-            while (value > 0) {
+        public static IEnumerator Decrease(this float value, float decrement, float delay = 1.0f)
+        {
+            while (value > 0)
+            {
                 value -= decrement;
                 yield return new WaitForSeconds(delay);
             }
@@ -262,13 +284,16 @@ namespace Extensions {
         public static void ElectrocutionRadius(Vector3 position,
                                                float electrocutionPower = 25.0f,
                                                float electrocutionDuration = 10.0f,
-                                               float electrocutionRadius = 10.0f) {
+                                               float electrocutionRadius = 10.0f)
+        {
             var rigidbodyHashSet = new HashSet<Rigidbody>();
             var creatureHashSet = new HashSet<Creature>();
-            foreach (var collider in Physics.OverlapSphere(position, electrocutionRadius)) {
+            foreach (var collider in Physics.OverlapSphere(position, electrocutionRadius))
+            {
                 if (!collider.attachedRigidbody || rigidbodyHashSet.Contains(collider.attachedRigidbody)) return;
                 var creature = collider.attachedRigidbody?.GetComponentInParent<Creature>();
-                if (creature.Alive() && !creature.isPlayer && !creatureHashSet.Contains(creature)) {
+                if (creature.Alive() && !creature.isPlayer && !creatureHashSet.Contains(creature))
+                {
                     creature.ragdoll?.SetState(Ragdoll.State.Destabilized);
                     creatureHashSet.Add(creature);
                 }
@@ -283,12 +308,14 @@ namespace Extensions {
             }
         }
 
-        public static Axis GetAxis(this Vector3 vector3) {
+        public static Axis GetAxis(this Vector3 vector3)
+        {
             if (vector3.PrimarilyX()) return Axis.X;
             return vector3.PrimarilyY() ? Axis.Y : Axis.Z;
         }
 
-        public static void ForBothHands(Action<RagdollHand> action, Creature creature) {
+        public static void ForBothHands(Action<RagdollHand> action, Creature creature)
+        {
             action(creature.handLeft);
             action(creature.handRight);
         }
@@ -301,20 +328,26 @@ namespace Extensions {
             creature.Head().transform.position + creature.Head().upDirection * distance;
 
         public static T Next<T>(this List<T> list, int index) => index < list.Count - 1 ? list[index + 1] : list.FirstOrDefault();
-        
+
         public static T Random<T>(this List<T> list, int index) => index < list.Count - 1 ? list[UnityEngine.Random.Range(0, index)] : list.Next(index);
 
         public static RagdollPart GetRandomPart(this Creature creature, int index) => creature.ragdoll.parts.Random(index);
+
+        public static float Round(this float number) => Mathf.RoundToInt(number);
+
+        public static bool ContainsComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() is not null;
     }
 }
 
-public class Continuum {
+public class Continuum
+{
     private Continuum continuum;
     private Func<bool> condition;
     private Action action;
     private Type type = Type.Start;
 
-    private enum Type {
+    private enum Type
+    {
         Start,
         WaitFor,
         Do,
@@ -323,20 +356,25 @@ public class Continuum {
 
     public static Continuum Start() => new Continuum();
 
-    public Continuum WaitFor(Func<bool> condition) {
+    public Continuum WaitFor(Func<bool> condition)
+    {
         continuum = new Continuum { condition = condition, type = Type.WaitFor };
         return continuum;
     }
 
-    public Continuum Do(Action action) {
+    public Continuum Do(Action action)
+    {
         continuum = new Continuum { action = action, type = Type.Do };
         return continuum;
     }
 
-    public void Update() {
-        switch (type) {
+    public void Update()
+    {
+        switch (type)
+        {
             case Type.Start:
-                if (continuum is null) {
+                if (continuum is null)
+                {
                     type = Type.End;
                     return;
                 }
@@ -347,8 +385,10 @@ public class Continuum {
                 Update();
                 break;
             case Type.WaitFor:
-                if (condition.Invoke()) {
-                    if (continuum is null) {
+                if (condition.Invoke())
+                {
+                    if (continuum is null)
+                    {
                         type = Type.End;
                         return;
                     }
@@ -361,7 +401,8 @@ public class Continuum {
                 break;
             case Type.Do:
                 action.Invoke();
-                if (continuum is null) {
+                if (continuum is null)
+                {
                     type = Type.Start;
                     return;
                 }
@@ -375,7 +416,8 @@ public class Continuum {
     }
 }
 
-public enum Direction {
+public enum Direction
+{
     Any,
     Upward,
     Forward,
@@ -385,6 +427,7 @@ public enum Direction {
     Downward
 }
 
-public enum Axis {
+public enum Axis
+{
     X, Y, Z
 }
