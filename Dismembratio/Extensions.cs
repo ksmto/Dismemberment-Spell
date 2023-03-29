@@ -3,23 +3,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using ThunderRoad;
 using UnityEngine;
+using Action = System.Action;
+using Object = UnityEngine.Object;
 
 namespace Extensions
 {
     internal static class Methods
     {
-        public static Vector3 Position(this Creature creature) => creature.transform.position;
-
         public static Creature GetClosestCreature() =>
             Creature.allActive.Where(creature => creature.Alive() && !creature.isPlayer)
-                    .OrderBy(creature => Vector3.Distance(Player.currentCreature.Position(), creature.Position()))
+                    .OrderBy(creature => Vector3.Distance(Player.currentCreature.transform.position, creature.transform.position))
                     .FirstOrDefault();
 
         public static Item GetClosestItem() =>
-            Item.allActive.Where(item => item is not null)
-                .OrderBy(item => Vector3.Distance(Player.currentCreature.Position(), item.transform.position))
+            Item.allActive.Where(item => item != null)
+                .OrderBy(item => Vector3.Distance(Player.currentCreature.transform.position, item.transform.position))
                 .FirstOrDefault();
 
         public static void SliceAllParts(this Creature creature)
@@ -47,9 +48,9 @@ namespace Extensions
         public static RagdollPart RightFoot(this Creature creature) => creature?.GetRagdollPart(RagdollPart.Type.RightFoot);
 
         public static float DistanceBetweenCreatureAndPlayer(this Creature creature) =>
-            Vector3.Distance(Player.currentCreature.Position(), creature.transform.position);
+            Vector3.Distance(Player.currentCreature.transform.position, creature.transform.position);
 
-        public static float DistanceBetweenItems(this Item first, Item other) => (first.transform.position - other.transform.position).sqrMagnitude;
+        public static float DistanceBetweenItems(this Item first, Item other) => Vector3.Distance(first.transform.position, other.transform.position);
 
         public static float DistanceBetweenHands() =>
             Vector3.Distance(Player.currentCreature.handLeft.transform.position, Player.currentCreature.handRight.transform.position);
@@ -68,35 +69,35 @@ namespace Extensions
         public static float VelocityDirection(this RagdollHand hand, Vector3 direction) => Vector3.Dot(hand.Velocity(), direction);
 
         public static Vector3 BackHandPosition(this RagdollHand hand, float distance = 1.5f) =>
-            hand.palmCollider.transform.position + -hand.palmCollider.transform.forward * -distance;
+            hand.palmCollider.transform.position + -hand.palmCollider.transform.forward * Mathf.Abs(distance);
 
         public static Vector3 FrontHandPosition(this RagdollHand hand, float distance = 1.5f) =>
-            hand.palmCollider.transform.position + -hand.palmCollider.transform.forward * distance;
+            hand.palmCollider.transform.position + hand.palmCollider.transform.forward * Mathf.Abs(distance);
 
         public static Transform ThumbFingerTip(this RagdollHand hand) => hand.fingerThumb.tip;
 
         public static Vector3 AboveThumbTip(this RagdollHand hand, float distance = 1.5f) =>
-            hand.IndexFingerTip().position + -hand.ThumbFingerTip().transform.forward * -distance;
+            hand.IndexFingerTip().position + hand.ThumbFingerTip().transform.forward * Mathf.Abs(distance);
 
         public static Transform IndexFingerTip(this RagdollHand hand) => hand.fingerIndex.tip;
 
         public static Vector3 AboveIndexTip(this RagdollHand hand, float distance = 1.5f) =>
-            hand.IndexFingerTip().position + -hand.IndexFingerTip().transform.forward * -distance;
+            hand.IndexFingerTip().position + hand.IndexFingerTip().transform.forward * Mathf.Abs(distance);
 
         public static Transform MiddleFingerTip(this RagdollHand hand) => hand.fingerMiddle.tip;
 
         public static Vector3 AboveMiddleTip(this RagdollHand hand, float distance = 1.5f) =>
-            hand.MiddleFingerTip().transform.position + -hand.MiddleFingerTip().transform.forward * -distance;
+            hand.MiddleFingerTip().transform.position + hand.MiddleFingerTip().transform.forward * Mathf.Abs(distance);
 
         public static Transform RingFingerTip(this RagdollHand hand) => hand.fingerRing.tip;
 
         public static Vector3 AboveRingTip(this RagdollHand hand, float distance = 1.5f) =>
-            hand.RingFingerTip().transform.position + -hand.RingFingerTip().transform.forward * -distance;
+            hand.RingFingerTip().transform.position + hand.RingFingerTip().transform.forward * Mathf.Abs(distance);
 
         public static Transform PinkyFingerTip(this RagdollHand hand) => hand.fingerLittle.tip;
 
         public static Vector3 AbovePinkyTip(this RagdollHand hand, float distance = 1.5f) =>
-            hand.PinkyFingerTip().transform.position + -hand.PinkyFingerTip().transform.forward * -distance;
+            hand.PinkyFingerTip().transform.position + hand.PinkyFingerTip().transform.forward * Mathf.Abs(distance);
 
         public static void LoadBrain(this Creature creature, [CanBeNull] string brainID = null) =>
             creature?.brain?.Load(brainID ?? creature.brain?.instance?.id);
@@ -124,12 +125,10 @@ namespace Extensions
         public static void CreateExplosion(Vector3 position,
                                            float explosionRadius = 10.0f,
                                            float explosionForce = 25.0f,
-                                           [CanBeNull] EffectData effectData = null,
-                                           [CanBeNull] string effectID = "MeteorExplosion")
+                                           [CanBeNull] EffectData effectData = null)
         {
-            if (effectData is not null)
+            if (effectData != null)
             {
-                effectData = Catalog.GetData<EffectData>(effectID);
                 effectData?.Spawn(position, Quaternion.identity, 1.0f, 1.0f)?.Play();
             }
             var rigidbodyHashSet = new HashSet<Rigidbody>();
@@ -143,7 +142,7 @@ namespace Extensions
                     creature.ragdoll?.SetState(Ragdoll.State.Destabilized);
                     creatureHashSet.Add(creature);
                 }
-                if (collider.attachedRigidbody?.GetComponentInParent<Player>() is not null) explosionForce /= 2.0f;
+                if (collider.attachedRigidbody?.GetComponentInParent<Player>() != null) explosionForce /= 2.0f;
                 rigidbodyHashSet.Add(collider.attachedRigidbody);
                 collider.attachedRigidbody?.AddExplosionForce(explosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
             }
@@ -179,17 +178,12 @@ namespace Extensions
 
         public static void Unpenetrate(this Item item)
         {
-            foreach (var damagers in item.collisionHandlers
-                                         .SelectMany(collisionHandlers => collisionHandlers.damagers)) damagers.UnPenetrateAll();
+            foreach (var damagers in item.collisionHandlers.SelectMany(collisionHandlers => collisionHandlers.damagers)) damagers.UnPenetrateAll();
         }
 
         public static void AddForce(this Creature creature,
                                     Vector3 force,
-                                    float? forceAdded = null,
-                                    ForceMode forceMode = ForceMode.Impulse)
-        {
-            foreach (var parts in creature?.ragdoll?.parts) parts?.physicBody?.AddForce(force * forceAdded ?? Vector3.zero, forceMode);
-        }
+                                    ForceMode forceMode = ForceMode.Impulse) => creature?.GetAllParts()?.physicBody?.AddForce(force, forceMode);
 
         public static void Destroy(this GameObject gameObject) => Destroy(gameObject);
 
@@ -197,11 +191,8 @@ namespace Extensions
 
         public static void AddForceTowards(this Rigidbody rigidbody,
                                            Vector3 target,
-                                           float? forceAdded = null,
-                                           ForceMode forceMode = ForceMode.VelocityChange)
-        {
-            rigidbody?.AddForce((rigidbody.position - target).normalized * forceAdded ?? Vector3.zero, forceMode);
-        }
+                                           ForceMode forceMode = ForceMode.VelocityChange) => rigidbody?.AddForce((rigidbody.position - target).normalized, forceMode);
+
 
         public static float Sqrt(this float number) => Mathf.Sqrt(number);
         public static float Abs(this float number) => Mathf.Abs(number);
@@ -218,21 +209,20 @@ namespace Extensions
                                      null,
                                      false,
                                      null,
-                                     newCreature => { newCreature.LoadBrain(brainID); });
+                                     newCreature => { newCreature.LoadBrain(creature.brain.instance.id); });
         }
 
         public static void Clone(this Item item,
                                  Vector3 position,
                                  Quaternion rotation,
-                                 Vector3? forceDirection = null,
-                                 float? forceAdded = null,
+                                 Vector3 force,
                                  ForceMode forceMode = ForceMode.Impulse)
         {
             item.data.SpawnAsync(newItem =>
             {
                 newItem.transform.position = position;
                 newItem.transform.rotation = rotation;
-                newItem.physicBody.AddForce(forceDirection ?? Vector3.up * forceAdded ?? Vector3.zero, forceMode);
+                newItem.physicBody.AddForce(force, forceMode);
             });
         }
 
@@ -245,14 +235,10 @@ namespace Extensions
             return lineRenderer;
         }
 
-        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f)
-        {
-            var dot = Vector3.Dot(source.normalized, target.normalized);
-            var cosAngle = Mathf.Cos(Mathf.Deg2Rad * angle);
-            return dot >= cosAngle;
-        }
+        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f) =>
+            Vector3.Dot(source.normalized, target.normalized) >= Mathf.Cos(Mathf.Deg2Rad * angle);
 
-        public static Direction GetDirection(this Vector3 vector3, float angle = 45.0f)
+        public static Direction GetFacedDirection(this Vector3 vector3, float angle = 45.0f)
         {
             if (vector3.Facing(Vector3.up, angle)) return Direction.Upward;
             if (vector3.Facing(Vector3.forward, angle)) return Direction.Forward;
@@ -265,6 +251,7 @@ namespace Extensions
         }
 
         public static RagdollHand Offhand(this Item item) => item.mainHandler.otherHand;
+
         public static RagdollHand Offhand(this SpellCaster spellCaster) => spellCaster.ragdollHand.otherHand;
 
         public static IEnumerator Decrease(this float value, float decrement, float delay = 1.0f)
@@ -320,6 +307,12 @@ namespace Extensions
             action(creature.handRight);
         }
 
+        public static void ForBothFeet(Action<RagdollFoot> action, Creature creature)
+        {
+            action(creature.footLeft);
+            action(creature.footRight);
+        }
+
         public static bool InWater(this Item item) => item.waterHandler.inWater;
 
         public static bool InWater(this Creature creature) => creature.waterHandler.inWater;
@@ -327,15 +320,355 @@ namespace Extensions
         public static Vector3 AboveHead(this Creature creature, float distance = 1.50f) =>
             creature.Head().transform.position + creature.Head().upDirection * distance;
 
-        public static T Next<T>(this List<T> list, int index) => index < list.Count - 1 ? list[index + 1] : list.FirstOrDefault();
-
-        public static T Random<T>(this List<T> list, int index) => index < list.Count - 1 ? list[UnityEngine.Random.Range(0, index)] : list.Next(index);
-
-        public static RagdollPart GetRandomPart(this Creature creature, int index) => creature.ragdoll.parts.Random(index);
-
         public static float Round(this float number) => Mathf.RoundToInt(number);
 
-        public static bool ContainsComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() is not null;
+        public static bool ContainsComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
+
+        public static RaycastHit[] ConeCastAll(Vector3 origin, float maxRadius, Vector3 direction, float maxDistance, float coneAngle)
+        {
+            RaycastHit[] sphereCastHits = Physics.SphereCastAll(origin - new Vector3(0, 0, maxRadius), maxRadius, direction, maxDistance);
+            List<RaycastHit> coneCastHitList = new List<RaycastHit>();
+
+            if (sphereCastHits.Length > 0)
+            {
+                for (int i = 0; i < sphereCastHits.Length; i++)
+                {
+                    sphereCastHits[i].collider.gameObject.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f);
+                    Vector3 hitPoint = sphereCastHits[i].point;
+                    Vector3 directionToHit = hitPoint - origin;
+                    float angleToHit = Vector3.Angle(direction, directionToHit);
+
+                    if (angleToHit < coneAngle)
+                    {
+                        coneCastHitList.Add(sphereCastHits[i]);
+                    }
+                }
+            }
+
+            RaycastHit[] coneCastHits = new RaycastHit[coneCastHitList.Count];
+            coneCastHits = coneCastHitList.ToArray();
+
+            return coneCastHits;
+        }
+
+        public static Transform GetFreeSlot(this Creature creature)
+        {
+            foreach (var holders in creature.holders)
+            {
+                return holders.HasSlotFree() ? holders.slots.FirstOrDefault() : null;
+            }
+            return null;
+        }
+
+        public static void Holster(this Creature creature)
+        {
+            if (creature.GetFreeSlot() != null)
+            {
+                if (creature.handLeft.HoldingItem())
+                {
+                    BackpackHolder.instance.StoreItem(creature.handLeft.grabbedHandle.item);
+                }
+
+                if (creature.handRight.HoldingItem())
+                {
+                    BackpackHolder.instance.StoreItem(creature.handRight.grabbedHandle.item);
+                }
+            }
+            else
+            {
+                creature.holders.First().UnSnap(creature.holders.FirstOrDefault().items.FirstOrDefault());
+
+                if (creature.handLeft.HoldingItem())
+                {
+                    BackpackHolder.instance.StoreItem(creature.handLeft.grabbedHandle.item);
+                }
+
+                if (creature.handRight.HoldingItem())
+                {
+                    BackpackHolder.instance.StoreItem(creature.handRight.grabbedHandle.item);
+                }
+            }
+        }
+
+        public static bool HoldingItem(this RagdollHand hand) => hand?.grabbedHandle?.item != null;
+
+        public static void Set<T>(this object source, string fieldName, T value) =>
+            source?.GetType()?.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)?.SetValue(source, value);
+
+        public static void RemoveComponent<T>(this GameObject gameObject) where T : Component
+        {
+            T component = gameObject.GetComponent<T>();
+            if (component != null)
+            {
+                Object.Destroy(component);
+            }
+        }
+
+        public static void Unimbue(this Item item)
+        {
+            foreach (var imbues in item.imbues)
+            {
+                imbues.energy = 0.0f;
+            }
+        }
+
+        public static void SpawnFireball(Vector3 spawnPosition,
+            Quaternion spawnRotation,
+            Vector3 shootDirection,
+            float speed = 12.0f,
+            bool allowDeflect = true,
+            bool useGravity = false,
+            GuidanceMode guidance = GuidanceMode.NonGuided)
+        {
+            var fireballEffectData = Catalog.GetData<EffectData>("SpellFireball");
+            var deflectEffectData = Catalog.GetData<EffectData>("HitFireBallDeflect");
+
+            Catalog.GetData<ItemData>("DynamicProjectile").SpawnAsync(fireball =>
+            {
+                fireball.physicBody.useGravity = useGravity;
+                fireball.physicBody.velocity = Vector3.zero;
+                if (fireball.GetComponent<ItemMagicProjectile>())
+                {
+                    fireball.GetComponent<ItemMagicProjectile>().speed = speed;
+                    fireball.GetComponent<ItemMagicProjectile>().guidance = guidance;
+                    fireball.GetComponent<ItemMagicProjectile>().allowDeflect = allowDeflect;
+                    fireball.GetComponent<ItemMagicProjectile>().deflectEffectData = deflectEffectData;
+                    fireball.GetComponent<ItemMagicProjectile>().Fire(shootDirection * speed, fireballEffectData);
+                }
+                foreach (var collisionHandler in fireball.collisionHandlers)
+                {
+                    foreach (var damager in collisionHandler.damagers) damager.Load(Catalog.GetData<DamagerData>("Fireball"), collisionHandler);
+                }
+                fireball.Throw();
+            }, spawnPosition, spawnRotation);
+        }
+
+        public static void SpawnMeteor(Vector3 spawnPosition,
+            Quaternion spawnRotation,
+            Vector3 shootDirection,
+            float speed = 20.0f,
+            bool allowDeflect = true,
+            bool useGravity = false,
+            GuidanceMode guidance = GuidanceMode.NonGuided,
+            float explosionRadius = 10.0f,
+            float explosionForce = 25.0f)
+        {
+            var meterEffectData = Catalog.GetData<EffectData>("Meteor");
+            var explosionEffectData = Catalog.GetData<EffectData>("MeteorExplsoion");
+            var deflectEffectData = Catalog.GetData<EffectData>("HitFireBallDeflect");
+
+            Catalog.GetData<ItemData>("DynamicProjectile").SpawnAsync(meteor =>
+            {
+                meteor.physicBody.useGravity = useGravity;
+                meteor.physicBody.velocity = Vector3.zero;
+                if (meteor.GetComponent<ItemMagicProjectile>())
+                {
+                    meteor.GetComponent<ItemMagicProjectile>().speed = speed;
+                    meteor.GetComponent<ItemMagicProjectile>().guidance = guidance;
+                    meteor.GetComponent<ItemMagicProjectile>().allowDeflect = allowDeflect;
+                    meteor.GetComponent<ItemMagicProjectile>().deflectEffectData = deflectEffectData;
+                    meteor.GetComponent<ItemMagicProjectile>().Fire(shootDirection * speed, meterEffectData);
+                }
+                foreach (var collisionHandler in meteor.collisionHandlers)
+                {
+                    foreach (var damager in collisionHandler.damagers) damager.Load(Catalog.GetData<DamagerData>("Fireball"), collisionHandler);
+
+                    collisionHandler.OnCollisionStartEvent += (instance) =>
+                    {
+                        CreateExplosion(meteor.transform.position, explosionRadius, explosionForce, explosionEffectData);
+                    };
+                }
+                meteor.Throw();
+            }, spawnPosition, spawnRotation);
+        }
+
+        public static RagdollPart GetAllParts(this Creature creature)
+        {
+            foreach (var parts in creature.ragdoll.parts)
+            {
+                return parts;
+            }
+            return null;
+        }
+
+        public static Item GetItemInHolder(this Creature creature)
+        {
+            foreach (Holder holder in creature.holders)
+            {
+                if (holder.items.Count == 0) continue;
+
+                var itemInHolder = holder.items.First();
+                holder.UnSnap(itemInHolder);
+                return itemInHolder;
+            }
+            return null;
+        }
+
+        public static bool Empty<T>(this List<T> list) => list.Count == 0;
+
+        public static T RemoveAndGetElement<T>(this List<T> list, int index = 0)
+        {
+            if (list.Empty())
+            {
+                IndexOutOfRangeException indexOutOfRangeException = new IndexOutOfRangeException();
+                throw indexOutOfRangeException;
+            }
+            var element = list[index];
+            list.RemoveAt(index);
+            return element;
+        }
+
+        public static Item HeldItem(this RagdollHand hand) => hand.grabbedHandle.item;
+
+        public static T RandomElement<T>(this List<T> list) => list[UnityEngine.Random.Range(0, list.Count)];
+
+        public static T NextElement<T>(this List<T> list, int index) => index > list.Count - 1 ? list[index + 1] : list.FirstOrDefault();
+
+        public static RagdollPart GetRandomPart(this Creature creature) => creature.ragdoll.parts.Count > 1 ? creature.ragdoll.parts.RandomElement() : throw new IndexOutOfRangeException();
+
+        public static string RandomElement(this string[] stringArray) => stringArray[UnityEngine.Random.Range(0, stringArray.Length)];
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+                list.Add(tuple.Item6);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+                list.Add(tuple.Item6);
+                list.Add(tuple.Item7);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+                list.Add(tuple.Item6);
+                list.Add(tuple.Item7);
+                list.Add(tuple.Item8);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+                list.Add(tuple.Item6);
+                list.Add(tuple.Item7);
+                list.Add(tuple.Item8);
+                list.Add(tuple.Item9);
+            }
+        }
+
+        public static void AddMultiple<T>(this List<T> list, params (T, T, T, T, T, T, T, T, T, T)[] tuples)
+        {
+            foreach (var tuple in tuples)
+            {
+                list.Add(tuple.Item1);
+                list.Add(tuple.Item2);
+                list.Add(tuple.Item3);
+                list.Add(tuple.Item4);
+                list.Add(tuple.Item5);
+                list.Add(tuple.Item6);
+                list.Add(tuple.Item7);
+                list.Add(tuple.Item8);
+                list.Add(tuple.Item9);
+                list.Add(tuple.Item10);
+            }
+        }
+
+        public static T MaximumIndexValue<T>(this List<T> list) => list[list.Count - 1];
+
+        public static T LowestIndexValue<T>(this List<T> list) => list[0];
+
+        public static void ShowMessage(string text, int priority = 1, float showDelay = 0.0f, bool tutorialMessage = false, bool skippable = true, bool warnPlayer = true, MessageAnchorType anchorType = MessageAnchorType.Head)
+        {
+            DisplayMessage.instance?.ShowMessage(new DisplayMessage.MessageData(text, "", "", "", priority, showDelay, null, null, tutorialMessage, skippable, warnPlayer: warnPlayer, anchorType: anchorType));
+        }
+
+        public static List<T> RemoveFirst<T>(this List<T> list)
+        {
+            if (list?.Count > 0)
+                list.RemoveAt(0);
+            else throw new IndexOutOfRangeException();
+            return list;
+        }
+
+        public static List<T> RemoveLast<T>(this List<T> list)
+        {
+            if (list?.Count > 0)
+                list.RemoveAt(list.Count - 1);
+            else throw new IndexOutOfRangeException();
+            return list;
+        }
     }
 }
 
