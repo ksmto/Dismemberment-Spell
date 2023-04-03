@@ -156,7 +156,6 @@ F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.csproj.CopyComplete
 F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.dll
 F:\Scripts\Dismembratio\Dismembratio\obj\Debug\Dismembratio.pdb
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Crest.dll
-F:\Scripts\Dismembratio\Dismembratio\bin\Debug\EasyButtons.dll
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\IngameDebugConsole.Runtime.dll
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\LIV.dll
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Burst.dll
@@ -172,3 +171,5 @@ F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Collections.LowLevel.ILSupp
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Burst.Unsafe.dll
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.RenderPipeline.Universal.ShaderLibrary.dll
 F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Unity.Timeline.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\BHaptics.dll
+F:\Scripts\Dismembratio\Dismembratio\bin\Debug\Valve.Newtonsoft.Json.dll
