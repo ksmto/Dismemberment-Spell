@@ -20,10 +20,10 @@ namespace Dismembratio
         public override void UpdateCaster()
         {
             base.UpdateCaster();
-            if (!spellCaster.isFiring)
-            {
-                var creature = Methods.GetClosestCreature();
+            var creature = Methods.GetClosestCreature();
 
+            if (spellCaster.isFiring)
+            {
                 if (SliceHead)
                 {
                     creature?.Kill();
@@ -57,11 +57,9 @@ namespace Dismembratio
                     switch (spellCaster.side)
                     {
                         case Side.Left:
-                            Player.currentCreature.handRight.Haptic();
                             Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.", 1, 0, false, true, true, MessageAnchorType.HandRight);
                             break;
                         case Side.Right:
-                            Player.currentCreature.handLeft.Haptic();
                             Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.", 1, 0, false, true, true, MessageAnchorType.HandLeft);
                             break;
                     }
