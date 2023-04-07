@@ -1,70 +1,81 @@
 ﻿using Extensions;
+using System;
 using ThunderRoad;
 
-namespace Dismembratio
+namespace Dismembratio;
+
+public class Spell : SpellCastCharge
 {
-    public class Spell : SpellCastCharge
+    public override void UpdateCaster()
     {
-        [ModOption("Slice Head", "If this is enabled the dismemberment spell will dismember the head on cast.", category = "Settings", defaultValueIndex = 1, order = 0, saveValue = true)]
-        public static bool SliceHead { get; set; }
+        base.UpdateCaster();
+        var creature = Methods.GetClosestCreature();
 
-        [ModOption("Slice Arms", "If this is enabled the dismemberment spell will dismember both of the arms on cast.", category = "Settings", defaultValueIndex = 1, order = 1, saveValue = true)]
-        public static bool SliceArms { get; set; }
+        if (!spellCaster.isFiring || creature is null) return;
 
-        [ModOption("Slice Legs", "If this is enabled the dismemberment spell will dismember both of the legs on cast.", category = "Settings", defaultValueIndex = 1, order = 2, saveValue = true)]
-        public static bool SliceLegs { get; set; }
-
-        [ModOption("Slice Random", "If this is enabled the dismemberment spell will dismember both of the legs on cast.", category = "Settings", defaultValueIndex = 0, order = 3, saveValue = true)]
-        public static bool SliceRandomPart { get; set; }
-
-        public override void UpdateCaster()
+        if (ModOptions.SliceHead)
         {
-            base.UpdateCaster();
-            var creature = Methods.GetClosestCreature();
+            creature?.Kill();
+            creature?.Head()?.TrySlice();
+        }
 
-            if (spellCaster.isFiring)
-            {
-                if (SliceHead)
-                {
-                    creature?.Kill();
-                    creature?.Head()?.TrySlice();
-                }
+        if (ModOptions.SliceHands)
+        {
+            creature?.Kill();
+            creature?.LeftLeg()?.TrySlice();
+            creature?.RightLeg()?.TrySlice();
+        }
 
-                if (SliceArms)
-                {
-                    creature?.Kill();
-                    creature?.LeftArm()?.TrySlice();
-                    creature?.RightArm()?.TrySlice();
-                }
+        if (ModOptions.SliceArms)
+        {
+            creature?.Kill();
+            creature?.LeftHand()?.TrySlice();
+            creature?.RightHand()?.TrySlice();
+        }
 
-                if (SliceLegs)
-                {
-                    creature?.Kill();
-                    creature?.LeftLeg()?.TrySlice();
-                    creature?.RightLeg()?.TrySlice();
-                }
+        if (ModOptions.SliceLegs)
+        {
+            creature?.Kill();
+            creature?.LeftLeg()?.TrySlice();
+            creature?.RightLeg()?.TrySlice();
+        }
 
-                if (SliceRandomPart)
-                {
-                    creature?.Kill();
-                    creature?.GetRandomPart()?.TrySlice();
-                }
+        if (ModOptions.SliceFeet)
+        {
+            creature?.Kill();
+            creature?.LeftFoot()?.TrySlice();
+            creature?.RightFoot()?.TrySlice();
+        }
 
-                if (!SliceHead && !SliceArms && !SliceLegs && !SliceRandomPart)
-                {
-                    spellCaster.EndCast();
+        if (ModOptions.SliceRandomPart)
+        {
+            creature?.Kill();
+            creature?.GetRandomPart()?.TrySlice();
+        }
 
-                    switch (spellCaster.side)
-                    {
-                        case Side.Left:
-                            Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.", 1, 0, false, true, true, MessageAnchorType.HandRight);
-                            break;
-                        case Side.Right:
-                            Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.", 1, 0, false, true, true, MessageAnchorType.HandLeft);
-                            break;
-                    }
-                }
-            }
+        if (ModOptions.SliceHead || ModOptions.SliceHands || ModOptions.SliceArms || ModOptions.SliceLegs || ModOptions.SliceFeet || ModOptions.SliceRandomPart) return;
+        spellCaster.EndCast();
+
+        switch (spellCaster.side)
+        {
+            case Side.Left:
+                Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
+                                    1,
+                                    0,
+                                    false,
+                                    true,
+                                    true,
+                                    MessageAnchorType.HandRight);
+                break;
+            case Side.Right:
+                Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
+                                    1,
+                                    0,
+                                    false,
+                                    true,
+                                    true,
+                                    MessageAnchorType.HandLeft);
+                break;
         }
     }
 }
