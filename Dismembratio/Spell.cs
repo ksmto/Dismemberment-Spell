@@ -8,78 +8,79 @@ namespace Dismembratio
         public override void UpdateCaster()
         {
             base.UpdateCaster();
-            var creature = Methods.GetClosestCreature();
-
-            if (spellCaster.isFiring)
+            foreach (Creature creatures in Creature.allActive)
             {
-                if (creature != null)
+                if (spellCaster.isFiring)
                 {
-                    if (ModOptions.SliceHead)
+                    if (creatures != null)
                     {
-                        creature.Kill();
-                        creature.SlicePart(RagdollPart.Type.Head);
-                    }
-
-                    if (ModOptions.SliceHands)
-                    {
-                        creature.Kill();
-                        creature.SlicePart(RagdollPart.Type.LeftHand);
-                        creature.SlicePart(RagdollPart.Type.RightHand);
-                    }
-
-                    if (ModOptions.SliceArms)
-                    {
-                        creature.Kill();
-                        creature.SlicePart(RagdollPart.Type.LeftArm);
-                        creature.SlicePart(RagdollPart.Type.RightArm);
-                    }
-
-                    if (ModOptions.SliceLegs)
-                    {
-                        creature.Kill();
-                        creature.SlicePart(RagdollPart.Type.LeftLeg);
-                        creature.SlicePart(RagdollPart.Type.RightLeg);
-                    }
-
-                    if (ModOptions.SliceFeet)
-                    {
-                        creature.Kill();
-                        creature.SlicePart(RagdollPart.Type.LeftFoot);
-                        creature.SlicePart(RagdollPart.Type.RightFoot);
-                    }
-
-                    if (ModOptions.SliceRandomPart)
-                    {
-                        creature.Kill();
-                        creature.GetRandomPart()?.TrySlice();
-                    }
-
-                    if (!ModOptions.SliceHead && !ModOptions.SliceHands && !ModOptions.SliceArms && !ModOptions.SliceLegs && !ModOptions.SliceFeet && !ModOptions.SliceRandomPart)
-                    {
-                        if (spellCaster != null)
+                        if (ModOptions.SliceHead)
                         {
-                            spellCaster.EndCast();
+                            creatures.Kill();
+                            creatures.SlicePart(RagdollPart.Type.Head);
+                        }
 
-                            switch (spellCaster.side)
+                        if (ModOptions.SliceHands)
+                        {
+                            creatures.Kill();
+                            creatures.SlicePart(RagdollPart.Type.LeftHand);
+                            creatures.SlicePart(RagdollPart.Type.RightHand);
+                        }
+
+                        if (ModOptions.SliceArms)
+                        {
+                            creatures.Kill();
+                            creatures.SlicePart(RagdollPart.Type.LeftArm);
+                            creatures.SlicePart(RagdollPart.Type.RightArm);
+                        }
+
+                        if (ModOptions.SliceLegs)
+                        {
+                            creatures.Kill();
+                            creatures.SlicePart(RagdollPart.Type.LeftLeg);
+                            creatures.SlicePart(RagdollPart.Type.RightLeg);
+                        }
+
+                        if (ModOptions.SliceFeet)
+                        {
+                            creatures.Kill();
+                            creatures.SlicePart(RagdollPart.Type.LeftFoot);
+                            creatures.SlicePart(RagdollPart.Type.RightFoot);
+                        }
+
+                        if (ModOptions.SliceRandomPart)
+                        {
+                            creatures.Kill();
+                            creatures.GetRandomPart()?.TrySlice();
+                        }
+
+                        if (!ModOptions.SliceHead && !ModOptions.SliceHands && !ModOptions.SliceArms && !ModOptions.SliceLegs && !ModOptions.SliceFeet && !ModOptions.SliceRandomPart)
+                        {
+                            if (spellCaster != null)
                             {
-                                case Side.Left:
-                                    Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
-                                                        1,
-                                                        0,
-                                                        false,
-                                                        true,
-                                                        true,
-                                                        MessageAnchorType.HandRight);
-                                    break;
-                                case Side.Right:
-                                    Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
-                                                        1,
-                                                        0,
-                                                        false,
-                                                        true,
-                                                        true,
-                                                        MessageAnchorType.HandLeft);
-                                    break;
+                                spellCaster.EndCast();
+
+                                switch (spellCaster.side)
+                                {
+                                    case Side.Left:
+                                        Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
+                                                            1,
+                                                            0,
+                                                            false,
+                                                            true,
+                                                            true,
+                                                            MessageAnchorType.HandRight);
+                                        break;
+                                    case Side.Right:
+                                        Methods.ShowMessage("You can not dismember enemies with the spell due to not having any dismemberment option turned on.",
+                                                            1,
+                                                            0,
+                                                            false,
+                                                            true,
+                                                            true,
+                                                            MessageAnchorType.HandLeft);
+                                        break;
+                                }
                             }
                         }
                     }
