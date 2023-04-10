@@ -13,19 +13,22 @@ namespace Extensions
     internal static class Methods
     {
         public static Creature GetClosestCreature()
-            => Creature.allActive.Where(creature => creature is not null && !creature.isKilled && !creature.isPlayer)
+            => Creature.allActive.Where(creature => creature != null && !creature.isKilled && !creature.isPlayer)
                        .OrderBy(creature => Vector3.Distance(Player.currentCreature.transform.position, creature.transform.position))
                        .FirstOrDefault();
 
         public static Item GetClosestItem()
-            => Item.allActive.Where(item => item is not null)
+            => Item.allActive.Where(item => item != null)
                    .OrderBy(item => Vector3.Distance(Player.currentCreature.transform.position, item.transform.position))
                    .FirstOrDefault();
 
         public static void SliceAllParts(this Creature creature)
         {
-            creature?.Kill();
-            creature?.GetAllSliceableParts()?.TrySlice();
+            if (creature != null)
+            {
+                creature.Kill();
+                creature.GetAllSliceableParts().TrySlice();
+            }
         }
 
         public static RagdollPart GetRagdollPart(this Creature creature, RagdollPart.Type ragdollPartType) => creature?.ragdoll?.GetPart(ragdollPartType);
@@ -52,16 +55,13 @@ namespace Extensions
 
         public static RagdollPart RightFoot(this Creature creature) => creature?.GetRagdollPart(RagdollPart.Type.RightFoot);
 
-        public static float DistanceBetweenCreatureAndPlayer(this Creature creature)
-            => Vector3.Distance(Player.currentCreature.transform.position, creature.transform.position);
+        public static float DistanceBetweenCreatureAndPlayer(this Creature creature) => Vector3.Distance(Player.currentCreature.transform.position, creature.transform.position);
 
         public static float DistanceBetweenItems(this Item first, Item other) => Vector3.Distance(first.transform.position, other.transform.position);
 
-        public static float DistanceBetweenHands()
-            => Vector3.Distance(Player.currentCreature.handLeft.transform.position, Player.currentCreature.handRight.transform.position);
+        public static float DistanceBetweenHands() => Vector3.Distance(Player.currentCreature.handLeft.transform.position, Player.currentCreature.handRight.transform.position);
 
-        public static bool EmptyHanded(this RagdollHand hand)
-            => hand?.grabbedHandle is null && hand?.caster?.telekinesis?.catchedHandle is null && !hand.caster.isFiring && !hand.caster.isMerging;
+        public static bool EmptyHanded(this RagdollHand hand) => hand?.grabbedHandle is null && hand?.caster?.telekinesis?.catchedHandle is null && !hand.caster.isFiring && !hand.caster.isMerging;
 
         public static bool GripPressed(this RagdollHand hand) => PlayerControl.GetHand(hand.side).gripPressed;
 
@@ -69,44 +69,33 @@ namespace Extensions
 
         public static bool AlternateUsePressed(this RagdollHand hand) => PlayerControl.GetHand(hand.side).alternateUsePressed;
 
-        public static bool GripPressed(this SpellCaster spellCaster) => PlayerControl.GetHand(spellCaster.ragdollHand.side).gripPressed;
-
-        public static bool AlternateUsePressed(this SpellCaster spellCaster) => PlayerControl.GetHand(spellCaster.ragdollHand.side).alternateUsePressed;
-
         public static Vector3 Velocity(this RagdollHand hand) => Player.currentCreature.transform.rotation * hand.playerHand.controlHand.GetHandVelocity();
 
         public static float VelocityDirection(this RagdollHand hand, Vector3 direction) => Vector3.Dot(hand.Velocity(), direction);
 
-        public static Vector3 BackHandPosition(this RagdollHand hand, float distance = 1.5f)
-            => hand.palmCollider.transform.position + -hand.palmCollider.transform.forward * Mathf.Abs(distance);
+        public static Vector3 BackHandPosition(this RagdollHand hand, float distance = 1.5f) => hand.palmCollider.transform.position + (-hand.palmCollider.transform.forward * Mathf.Abs(distance));
 
-        public static Vector3 FrontHandPosition(this RagdollHand hand, float distance = 1.5f)
-            => hand.palmCollider.transform.position + hand.palmCollider.transform.forward * Mathf.Abs(distance);
+        public static Vector3 FrontHandPosition(this RagdollHand hand, float distance = 1.5f) => hand.palmCollider.transform.position + (hand.palmCollider.transform.forward * Mathf.Abs(distance));
 
         public static Transform ThumbFingerTip(this RagdollHand hand) => hand.fingerThumb.tip;
 
-        public static Vector3 AboveThumbTip(this RagdollHand hand, float distance = 1.5f)
-            => hand.IndexFingerTip().position + hand.ThumbFingerTip().transform.forward * Mathf.Abs(distance);
+        public static Vector3 AboveThumbTip(this RagdollHand hand, float distance = 1.5f) => hand.IndexFingerTip().position + (hand.ThumbFingerTip().transform.forward * Mathf.Abs(distance));
 
         public static Transform IndexFingerTip(this RagdollHand hand) => hand.fingerIndex.tip;
 
-        public static Vector3 AboveIndexTip(this RagdollHand hand, float distance = 1.5f)
-            => hand.IndexFingerTip().position + hand.IndexFingerTip().transform.forward * Mathf.Abs(distance);
+        public static Vector3 AboveIndexTip(this RagdollHand hand, float distance = 1.5f) => hand.IndexFingerTip().position + (hand.IndexFingerTip().transform.forward * Mathf.Abs(distance));
 
         public static Transform MiddleFingerTip(this RagdollHand hand) => hand.fingerMiddle.tip;
 
-        public static Vector3 AboveMiddleTip(this RagdollHand hand, float distance = 1.5f)
-            => hand.MiddleFingerTip().transform.position + hand.MiddleFingerTip().transform.forward * Mathf.Abs(distance);
+        public static Vector3 AboveMiddleTip(this RagdollHand hand, float distance = 1.5f) => hand.MiddleFingerTip().transform.position + (hand.MiddleFingerTip().transform.forward * Mathf.Abs(distance));
 
         public static Transform RingFingerTip(this RagdollHand hand) => hand.fingerRing.tip;
 
-        public static Vector3 AboveRingTip(this RagdollHand hand, float distance = 1.5f)
-            => hand.RingFingerTip().transform.position + hand.RingFingerTip().transform.forward * Mathf.Abs(distance);
+        public static Vector3 AboveRingTip(this RagdollHand hand, float distance = 1.5f) => hand.RingFingerTip().transform.position + (hand.RingFingerTip().transform.forward * Mathf.Abs(distance));
 
         public static Transform PinkyFingerTip(this RagdollHand hand) => hand.fingerLittle.tip;
 
-        public static Vector3 AbovePinkyTip(this RagdollHand hand, float distance = 1.5f)
-            => hand.PinkyFingerTip().transform.position + hand.PinkyFingerTip().transform.forward * Mathf.Abs(distance);
+        public static Vector3 AbovePinkyTip(this RagdollHand hand, float distance = 1.5f) => hand.PinkyFingerTip().transform.position + (hand.PinkyFingerTip().transform.forward * Mathf.Abs(distance));
 
         public static void LoadBrain(this Creature creature, string brainID = null) => creature?.brain?.Load(brainID ?? creature.brain?.instance?.id);
 
@@ -123,7 +112,7 @@ namespace Extensions
 
         public static void Imbue(this Item item, SpellCastCharge spellType)
         {
-            foreach (var colliderGroups in item.colliderGroups.Where(colliderGroups => colliderGroups is not null && colliderGroups.imbue is not null)) colliderGroups.imbue.Transfer(spellType, colliderGroups.imbue.maxEnergy);
+            foreach (var colliderGroups in item.colliderGroups.Where(colliderGroups => colliderGroups != null && colliderGroups.imbue != null)) colliderGroups.imbue.Transfer(spellType, colliderGroups.imbue.maxEnergy);
         }
 
         public static void CreateExplosion(Vector3 position,
@@ -133,10 +122,14 @@ namespace Extensions
                                            float explosionDamage = 20.0f,
                                            EffectData explosionEffectData = null)
         {
-            if (explosionEffectData is not null)
+            if (explosionEffectData != null)
             {
                 var explosionEffectInstance = explosionEffectData.Spawn(position, Quaternion.identity, 1.0f, 1.0f);
-                explosionEffectInstance?.Play();
+
+                if (explosionEffectInstance != null)
+                {
+                    explosionEffectInstance.Play();
+                }
             }
 
             foreach (var collider in Physics.OverlapSphere(position, explosionRadius))
@@ -145,9 +138,12 @@ namespace Extensions
                 {
                     if (creature.isPlayer)
                     {
-                        if (Player.local is not null)
-                            Player.local.locomotion.GetPhysicBody()
-                                  .rigidBody.AddExplosionForce(explosionForce / 2.0f, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        creature.player.locomotion.GetPhysicBody().rigidBody.AddExplosionForce(explosionForce / 2.0f, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+
+                        /*if (Player.local != null)
+                        {
+                            Player.local.locomotion.GetPhysicBody().rigidBody.AddExplosionForce(explosionForce / 2.0f, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        }*/
                     }
                     else
                     {
@@ -159,17 +155,25 @@ namespace Extensions
                     }
                 }
 
-                if (collider.GetComponentInParent<Item>() is not Item item || item == null) continue;
-                item.physicBody.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                if (collider.GetComponentInParent<Item>() is Item item && item != null)
+                {
+                    item.physicBody.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
 
-                if (item.GetComponent<Breakable>() is not Breakable breakable || breakable != null) continue;
-                breakable.Break();
+                    if (item.GetComponent<Breakable>() is Breakable breakable && breakable != null)
+                    {
+                        breakable.Break();
 
-                foreach (var brokenItems in breakable.subBrokenItems.Where(brokenItems => brokenItems is not null))
-                    brokenItems.physicBody.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        foreach (var brokenItems in breakable.subBrokenItems.Where(brokenItems => brokenItems != null))
+                        {
+                            brokenItems.physicBody.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        }
 
-                foreach (var brokenBodies in breakable.subBrokenBodies.Where(brokenBodies => brokenBodies is not null))
-                    brokenBodies.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        foreach (var brokenBodies in breakable.subBrokenBodies.Where(brokenBodies => brokenBodies != null))
+                        {
+                            brokenBodies.rigidBody.AddExplosionForce(itemExplosionForce, position, explosionRadius, 1.0f, ForceMode.VelocityChange);
+                        }
+                    }
+                }
             }
         }
 
@@ -182,9 +186,14 @@ namespace Extensions
             foreach (var collider in Physics.OverlapSphere(position, radius))
             {
                 if (collider.GetComponentInParent<Creature>() is Creature creature && !creature.isPlayer)
+                {
                     creature.TryElectrocute(electrocutionPower, electrocutionDuration, true, false, electrocutionEffectData);
+                }
 
-                if (collider.GetComponentInParent<Item>() is Item item) item?.Imbue(Catalog.GetData<SpellCastCharge>("Lightning"));
+                if (collider.GetComponentInParent<Item>() is Item item && item != null)
+                {
+                    item.Imbue(Catalog.GetData<SpellCastCharge>("Lightning"));
+                }
             }
         }
 
@@ -192,16 +201,13 @@ namespace Extensions
         public static bool PrimarilyY(this Vector3 vector3) => vector3.y > vector3.x && vector3.y > vector3.z;
         public static bool PrimarilyZ(this Vector3 vector3) => vector3.z > vector3.x && vector3.z > vector3.y;
 
-        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component
-            => gameObject?.GetComponent<T>() ? gameObject?.AddComponent<T>() : gameObject?.GetComponent<T>();
+        public static T GetOrAddComponent<T>(this GameObject gameObject) where T : Component => gameObject?.GetComponent<T>() ? gameObject?.AddComponent<T>() : gameObject?.GetComponent<T>();
 
         public static T GetAndFindComponent<T>(this GameObject gameObject, string find) where T : Component => gameObject?.transform.Find(find)?.GetComponent<T>();
 
-        public static T GetAndFindComponent<T>(this Transform transform, string find) where T : Component
-            => transform?.gameObject.transform.Find(find)?.GetComponent<T>();
+        public static T GetAndFindComponent<T>(this Transform transform, string find) where T : Component => transform?.gameObject.transform.Find(find)?.GetComponent<T>();
 
-        public static T GetAndFindComponent<T>(this Rigidbody rigidbody, string find) where T : Component
-            => rigidbody?.gameObject.transform.Find(find)?.GetComponent<T>();
+        public static T GetAndFindComponent<T>(this Rigidbody rigidbody, string find) where T : Component => rigidbody?.gameObject.transform.Find(find)?.GetComponent<T>();
 
         public static T GetAndFindComponent<T>(this Item item, string find) where T : Component => item?.gameObject.transform.Find(find)?.GetComponent<T>();
 
@@ -211,7 +217,7 @@ namespace Extensions
             creature?.ragdoll?.SetState(Ragdoll.State.Inert);
         }
 
-        public static Vector3 ChangeScale(this Item item, float newScaleSize) => item.transform.localScale = new Vector3(newScaleSize, newScaleSize, newScaleSize);
+        public static Vector3 Resize(this Item item, float newScaleSize) => item.transform.localScale = new Vector3(newScaleSize, newScaleSize, newScaleSize);
 
         public static void Unpenetrate(this Item item)
         {
@@ -220,33 +226,33 @@ namespace Extensions
 
         public static void AddForce(this Creature creature, Vector3 force, ForceMode forceMode = ForceMode.Impulse)
         {
-            if (creature == null) return;
-            creature.ragdoll.SetState(Ragdoll.State.Destabilized);
-            creature.GetAllParts()?.physicBody.AddForce(force, forceMode);
+            if (creature != null)
+            {
+                creature.ragdoll.SetState(Ragdoll.State.Destabilized);
+                creature.GetAllParts()?.physicBody.AddForce(force, forceMode);
+            }
         }
 
         public static void Destroy(this GameObject gameObject) => Destroy(gameObject);
 
         public static Color Darken(this Color color, float darkenSpeed) => Color.Lerp(color, Color.clear, darkenSpeed);
 
-        public static void AddForceTowards(this Item item, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange)
-            => item.physicBody?.AddForce((item.transform.position - target).normalized, forceMode);
+        public static void AddForceTowards(this Item item, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange) => item.physicBody?.AddForce((item.transform.position - target).normalized, forceMode);
 
-        public static void AddForceTowards(this PhysicBody physicBody, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange)
-            => physicBody?.AddForce((physicBody.transform.position - target).normalized, forceMode);
+        public static void AddForceTowards(this PhysicBody physicBody, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange) => physicBody?.AddForce((physicBody.transform.position - target).normalized, forceMode);
 
-        public static void AddForceTowards(this Rigidbody rigidbody, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange)
-            => rigidbody?.AddForce((rigidbody.position - target).normalized, forceMode);
+        public static void AddForceTowards(this Rigidbody rigidbody, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange) => rigidbody?.AddForce((rigidbody.position - target).normalized, forceMode);
 
-        public static void AddForceTowards(this GameObject gameObject, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange)
-            => gameObject.GetPhysicBody()?.AddForce((gameObject.transform.position - target).normalized, forceMode);
+        public static void AddForceTowards(this GameObject gameObject, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange) => gameObject.GetPhysicBody()?.AddForce((gameObject.transform.position - target).normalized, forceMode);
 
-        public static void AddForceTowards(this Transform transform, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange)
-            => transform.GetPhysicBody()?.AddForce((transform.position - target).normalized, forceMode);
+        public static void AddForceTowards(this Transform transform, Vector3 target, ForceMode forceMode = ForceMode.VelocityChange) => transform.GetPhysicBody()?.AddForce((transform.position - target).normalized, forceMode);
 
         public static float Sqrt(this float number) => Mathf.Sqrt(number);
+
         public static float Abs(this float number) => Mathf.Abs(number);
+
         public static float Clamp(this float number, float minimum, float maximum) => Mathf.Clamp(number, minimum, maximum);
+
         public static float Lerp(this float minimum, float maximum, float speed) => Mathf.Lerp(minimum, maximum, speed);
 
         public static float GetRandomNumber(float minimum = Mathf.NegativeInfinity, float maximum = Mathf.Infinity) => Random.Range(minimum, maximum);
@@ -276,15 +282,23 @@ namespace Extensions
 
         public delegate void LineCallback(LineRenderer lineRenderer);
 
-        public static LineRenderer CreateLine(this GameObject gameObj, LineCallback callback = null)
+        public static LineRenderer CreateLine(this GameObject gameObject, LineCallback callback = null)
         {
-            var lineRenderer = gameObj?.AddComponent<LineRenderer>();
-            callback?.Invoke(lineRenderer);
-            return lineRenderer;
+            if (gameObject != null)
+            {
+                var lineRenderer = gameObject.AddComponent<LineRenderer>();
+
+                if (callback != null)
+                {
+                    callback.Invoke(lineRenderer);
+                }
+
+                return lineRenderer;
+            }
+            return null;
         }
 
-        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f)
-            => Vector3.Dot(source.normalized, target.normalized) >= Mathf.Cos(Mathf.Deg2Rad * angle);
+        public static bool Facing(this Vector3 source, Vector3 target, float angle = 45.0f) => Vector3.Dot(source.normalized, target.normalized) >= Mathf.Cos(Mathf.Deg2Rad * angle);
 
         public static Direction GetFacedDirection(this Vector3 vector3, float angle = 45.0f)
         {
@@ -311,12 +325,15 @@ namespace Extensions
 
         public static float VelocityDirection(this Item item, Vector3 direction) => Vector3.Dot(item.physicBody.velocity, direction);
 
-        public static Vector3 AboveHead(this Creature creature, float distance = 1.50f) => creature.Head().transform.position + creature.Head().upDirection * distance;
+        public static Vector3 AboveHead(this Creature creature, float distance = 1.50f) => creature.Head().transform.position + (creature.Head().upDirection * distance);
 
-        public static Vector3 AboveFace(this Creature creature, float distance = 1.50f)
-            => creature.Head().transform.position + creature.Head().forwardDirection * distance;
+        public static Vector3 AboveFace(this Creature creature, float distance = 1.50f) => creature.Head().transform.position + (creature.Head().forwardDirection * distance);
 
-        public static Axis GetAxis(this Vector3 vector3) => vector3.PrimarilyY() ? vector3.PrimarilyX() ? Axis.X : Axis.Y : vector3.PrimarilyX() ? Axis.X : Axis.Z;
+        public static Axis GetAxis(this Vector3 vector3) => vector3.PrimarilyY()
+                                                                ? vector3.PrimarilyX() ? Axis.X : Axis.Y
+                                                                : vector3.PrimarilyX()
+                                                                    ? Axis.X
+                                                                    : Axis.Z;
 
         public static void ForBothHands(Action<RagdollHand> action, Creature creature)
         {
@@ -336,21 +353,22 @@ namespace Extensions
 
         public static float Round(this float number) => Mathf.RoundToInt(number);
 
-        public static bool HasComponent<T>(this Item item) where T : Component => item.gameObject.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this Item item) where T : Component => item.gameObject.GetComponent<T>() != null;
 
-        public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this GameObject gameObject) where T : Component => gameObject.GetComponent<T>() != null;
 
-        public static bool HasComponent<T>(this Transform transform) where T : Component => transform.gameObject.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this Transform transform) where T : Component => transform.gameObject.GetComponent<T>() != null;
 
-        public static bool HasComponent<T>(this PhysicBody physicBody) where T : Component => physicBody.gameObject.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this PhysicBody physicBody) where T : Component => physicBody.gameObject.GetComponent<T>() != null;
 
-        public static bool HasComponent<T>(this Rigidbody rigidbody) where T : Component => rigidbody.gameObject.GetComponent<T>() is not null;
+        public static bool HasComponent<T>(this Rigidbody rigidbody) where T : Component => rigidbody.gameObject.GetComponent<T>() != null;
 
         public static RaycastHit[] ConeCastAll(Vector3 origin, float maxRadius, Vector3 direction, float maxDistance, float coneAngle)
         {
             var sphereCastHits = Physics.SphereCastAll(origin - new Vector3(0, 0, maxRadius), maxRadius, direction, maxDistance);
             var coneCastHitList = new List<RaycastHit>();
             if (sphereCastHits.Length > 0)
+            {
                 foreach (var hit in sphereCastHits)
                 {
                     hit.collider.gameObject.GetComponent<Renderer>().material.color = new Color(1f, 1f, 1f);
@@ -359,42 +377,53 @@ namespace Extensions
                     var angleToHit = Vector3.Angle(direction, directionToHit);
                     if (angleToHit < coneAngle) coneCastHitList.Add(hit);
                 }
+            }
 
             var coneCastHits = new RaycastHit[coneCastHitList.Count];
             coneCastHits = coneCastHitList.ToArray();
             return coneCastHits;
         }
 
-        public static Transform GetFreeSlot(this Creature creature)
-            => creature.holders.Select(holders => holders.HasSlotFree() ? holders.slots.FirstOrDefault() : null).FirstOrDefault();
+        public static Transform GetFreeSlot(this Creature creature) => creature.holders.Select(holders => holders.HasSlotFree() ? holders.slots.FirstOrDefault() : null).FirstOrDefault();
 
         public static void Holster(this Creature creature)
         {
-            if (creature == null) return;
-            if (creature.GetFreeSlot() is not null)
+            if (creature != null)
             {
-                if (creature.handLeft.HoldingItem()) BackpackHolder.instance?.StoreItem(creature.handLeft.grabbedHandle.item);
-                if (creature.handRight.HoldingItem()) BackpackHolder.instance?.StoreItem(creature.handRight.grabbedHandle.item);
-            }
-            else
-            {
-                creature?.holders?.FirstOrDefault()?.UnSnap(creature?.holders?.FirstOrDefault()?.items?.FirstOrDefault());
+                if (creature.GetFreeSlot() != null)
+                {
+                    if (creature.handLeft.HoldingItem())
+                    {
+                        BackpackHolder.instance?.StoreItem(creature.handLeft.grabbedHandle.item);
+                    }
+                    if (creature.handRight.HoldingItem())
+                    {
+                        BackpackHolder.instance?.StoreItem(creature.handRight.grabbedHandle.item);
+                    }
+                }
+                else
+                {
+                    creature.holders?.FirstOrDefault()?.UnSnap(creature?.holders?.FirstOrDefault()?.items?.FirstOrDefault());
 
-                if (creature.handLeft.HoldingItem()) BackpackHolder.instance?.StoreItem(creature.handLeft.grabbedHandle.item);
-                if (creature.handRight.HoldingItem()) BackpackHolder.instance?.StoreItem(creature.handRight.grabbedHandle.item);
+                    if (creature.handLeft.HoldingItem())
+                    {
+                        BackpackHolder.instance?.StoreItem(creature.handLeft.grabbedHandle.item);
+                    }
+                    if (creature.handRight.HoldingItem())
+                    {
+                        BackpackHolder.instance?.StoreItem(creature.handRight.grabbedHandle.item);
+                    }
+                }
             }
         }
 
-        public static bool HoldingItem(this RagdollHand hand) => hand?.grabbedHandle?.item is not null;
+        public static bool HoldingItem(this RagdollHand hand) => hand?.grabbedHandle?.item != null;
 
-        public static void Set<T>(this object source, string fieldName, T value)
-            => source?.GetType()
-                     ?.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)
-                     ?.SetValue(source, value);
+        public static void Set<T>(this object source, string fieldName, T value) => source?.GetType()?.GetField(fieldName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Instance)?.SetValue(source, value);
 
         public static void RemoveComponent<T>(this GameObject gameObject) where T : Component
         {
-            if (gameObject.GetComponent<T>() is not null) Object.Destroy(gameObject.GetComponent<T>());
+            if (gameObject.GetComponent<T>() != null) Object.Destroy(gameObject.GetComponent<T>());
         }
 
         public static void Unimbue(this Item item)
@@ -616,11 +645,9 @@ namespace Extensions
             return list;
         }
 
-        public static Item LastHeldItem(this RagdollHand hand) => Item.allActive.Select(item => item is not null && hand == item.lastHandler ? item : null).FirstOrDefault();
+        public static Item LastHeldItem(this RagdollHand hand) => Item.allActive.Select(item => item != null && hand == item.lastHandler ? item : null).FirstOrDefault();
 
-
-        public static string Where(this string source, Func<char, bool> predicate)
-            => source is not null ? new string(source.Where(predicate).ToArray()) : throw new ArgumentNullException(nameof(source));
+        public static string Where(this string source, Func<char, bool> predicate) => source != null ? new string(source.Where(predicate).ToArray()) : throw new ArgumentNullException(nameof(source));
 
         public static void SpawnMeteor(Vector3 position,
                                        Quaternion rotation,
@@ -637,49 +664,53 @@ namespace Extensions
             var meteorIntensityCurve = AnimationCurve.EaseInOut(0f, 0f, 0.5f, 1f);
 
             meteorItemData?.SpawnAsync(item =>
-                                       {
-                                           item.disallowDespawn = true;
-                                           var component = item.GetComponent<ItemMagicAreaProjectile>();
+            {
+                item.disallowDespawn = true;
+                var component = item.GetComponent<ItemMagicAreaProjectile>();
 
-                                           if (component == null) return;
-                                           component.OnHit += collisionInstance =>
-                                           {
-                                               CreateExplosion(collisionInstance.contactPoint,
-                                                               meteorExplosionRadius,
-                                                               meteorExplosionForce,
-                                                               meteorPlayerExplosionForce,
-                                                               meteorExplosionDamage,
-                                                               meteorExplosionEffectData);
-                                           };
-                                           component.guidance = GuidanceMode.PartialGuided;
-                                           component.guidanceAmount = 5.0f;
-                                           component.speed = meteorVelocity;
-                                           component.guidanceFunc = () => Vector3
-                                                                          .Slerp(Vector3.Slerp(-Player.currentCreature.handLeft.transform.right,
-                                                                                               -Player.currentCreature.handRight.transform.right,
-                                                                                               0.5f)
-                                                                                        .normalized,
-                                                                                 (Vector3.Slerp(Player.currentCreature.handLeft.transform.position,
-                                                                                                Player.currentCreature.handRight.transform.position,
-                                                                                                0.5f)
-                                                                                  - Vector3.Lerp(Player.currentCreature.ragdoll.headPart.transform.position,
-                                                                                                 Player.currentCreature.transform.position,
-                                                                                                 0.5f)).normalized,
-                                                                                 0.5f)
-                                                                          .normalized;
-                                           component.effectIntensityCurve = meteorIntensityCurve;
-                                           item.physicBody.AddForce(velocity * meteorVelocity, ForceMode.Impulse);
-                                           component.Fire(velocity, meteorEffectData, null, Player.currentCreature.ragdoll, (HapticDevice)3);
-                                       },
+                if (component == null) return;
+                component.OnHit += collisionInstance =>
+                {
+                    CreateExplosion(collisionInstance.contactPoint,
+                                    meteorExplosionRadius,
+                                    meteorExplosionForce,
+                                    meteorPlayerExplosionForce,
+                                    meteorExplosionDamage,
+                                    meteorExplosionEffectData);
+                };
+                component.guidance = GuidanceMode.PartialGuided;
+                component.guidanceAmount = 5.0f;
+                component.speed = meteorVelocity;
+                component.guidanceFunc = () => Vector3
+                                               .Slerp(Vector3.Slerp(-Player.currentCreature.handLeft.transform.right,
+                                                                    -Player.currentCreature.handRight.transform.right,
+                                                                    0.5f).normalized,
+                                                      (Vector3.Slerp(Player.currentCreature.handLeft.transform.position,
+                                                                     Player.currentCreature.handRight.transform.position,
+                                                                     0.5f)
+                                                       - Vector3.Lerp(Player.currentCreature.ragdoll.headPart.transform.position,
+                                                                      Player.currentCreature.transform.position,
+                                                                      0.5f)).normalized,
+                                                      0.5f).normalized;
+                component.effectIntensityCurve = meteorIntensityCurve;
+                item.physicBody.AddForce(velocity * meteorVelocity, ForceMode.Impulse);
+                component.Fire(velocity, meteorEffectData, null, Player.currentCreature.ragdoll, (HapticDevice)3);
+            },
                                        position,
                                        rotation);
         }
 
         public static void Haptic(this RagdollHand hand, float hapticIntensity = 0.5f) => hand.playerHand.controlHand?.HapticShort(hapticIntensity);
 
-        public static bool EndOnGrip(this SpellCaster spellCaster, bool enabled)
+        /*public static bool EndOnGrip(this SpellCaster spellCaster, bool enabled)
             => spellCaster.spellInstance is SpellCastCharge { endOnGrip: true } spellCastCharge
-               && (enabled ? spellCastCharge.endOnGrip = true : spellCastCharge.endOnGrip = false);
+               && (enabled ? spellCastCharge.endOnGrip = true : spellCastCharge.endOnGrip = false);*/
+
+        public static bool EndOnGrip(this SpellCaster spellCaster, bool enabled)
+        {
+            SpellCastCharge spellCastCharge = spellCaster.spellInstance as SpellCastCharge;
+            return spellCastCharge != null && (enabled ? spellCastCharge.endOnGrip = true : spellCastCharge.endOnGrip = false);
+        }
 
         public static bool AnyPartDismembered(this Creature creature)
             => creature.Head().isSliced
@@ -695,6 +726,15 @@ namespace Extensions
                || creature.RightFoot().isSliced;
 
         public static void SlicePart(this Creature creature, RagdollPart.Type ragdollPartType) => creature.GetRagdollPart(ragdollPartType)?.TrySlice();
+
+        public static void SetPositionAndRotation(this Creature creature, Vector3 position, Quaternion rotation)
+        {
+            if (creature != null)
+            {
+                creature.locomotion.GetPhysicBody().transform.position = position;
+                creature.locomotion.GetPhysicBody().transform.rotation = rotation;
+            }
+        }
     }
 }
 

@@ -1,0 +1,18 @@
+
+ucsharpsquid:S1121ª"KExtract the assignment of 'spellCastCharge.endOnGrip' from this expression.(ÿÚÄÿÿÿÿÿ8’ãëÚõ0
+ucsharpsquid:S1121ª"KExtract the assignment of 'spellCastCharge.endOnGrip' from this expression.(ÿÚÄÿÿÿÿÿ8’ãëÚõ0
+[csharpsquid:S3011ˆ"6Make sure that this accessibility bypass is safe here.(•èâÅ8ô¥ùÚõ0
+wcsharpsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(°õÙ°8õ¥ùÚõ0
+ecsharpsquid:S1854ë"@Remove this useless assignment to local variable 'coneCastHits'.(¾ø¸¥8õ¥ùÚõ0
+Mcsharpsquid:S3903"(Move 'Direction' into a named namespace.(ı„Ÿ¼8’ãëÚõ0
+Mcsharpsquid:S3903™"#Move 'Axis' into a named namespace.(Ù×ÜÖşÿÿÿÿ8’ãëÚõ0
+Rcsharpsquid:S3903½"(Move 'Continuum' into a named namespace.(¬Ä¤™úÿÿÿÿ8’ãëÚõ0
+hcsharpsquid:S3358¿"DExtract this nested ternary operation into an independent statement.(Ä¹š98õ¥ùÚõ0
+hcsharpsquid:S3358¿"DExtract this nested ternary operation into an independent statement.(Ä¹š98õ¥ùÚõ0
+\csharpsquid:S2190ä"2Add a way to break out of this method's recursion.(êì“üÿÿÿÿ8õ¥ùÚõ0
+wcsharpsquid:S3267~"TLoop should be simplified by calling Select(colliderGroups => colliderGroups.imbue))(Ô®×88õ¥ùÚõ0
+_csharpsquid:S4136B"6All 'GripPressed' method overloads should be adjacent.(–Ùñ­şÿÿÿÿ8õ¥ùÚõ0
+bcsharpsquid:S4136F">All 'AlternateUsePressed' method overloads should be adjacent.(Şõ¬·8õ¥ùÚõ0
+ecsharpsquid:S4136N"<All 'VelocityDirection' method overloads should be adjacent.(³Òƒÿÿÿÿÿ8õ¥ùÚõ0
+bcsharpsquid:S4136¶"8All 'RandomElement' method overloads should be adjacent.(¤Œš³øÿÿÿÿ8õ¥ùÚõ0
+jcsharpsquid:S107ñ"AMethod has 11 parameters, which is greater than the 7 authorized.(âø Ìøÿÿÿÿ8“ãëÚõ0

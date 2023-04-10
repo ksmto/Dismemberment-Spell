@@ -1,0 +1,5 @@
+
+scsharpsquid:S1118"OAdd a 'protected' constructor or the 'static' keyword to the class declaration.(–„¥ι8Π‰όΪυ0
+hcsharpsquid:S1104="DMake this field 'private' and encapsulate it in a 'public' property.(πέ¬8΅”ΩΫυ0
+‰csharpsquid:S2386="eUse an immutable collection or reduce the accessibility of the public static field 'EnabledDisabled'.(πέ¬8΅”ΩΫυ0
+pcsharpsquid:S2223="LChange the visibility of 'EnabledDisabled' or make it 'const' or 'readonly'.(πέ¬8΅”ΩΫυ0
